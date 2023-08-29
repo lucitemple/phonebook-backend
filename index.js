@@ -1,11 +1,7 @@
 const express = require("express");
-const morgan = require("morgan");
 const cors = require("cors");
 
 const app = express();
-
-// For logging requests
-morgan.token("body", (req) => JSON.stringify(req.body));
 
 app.use(express.json());
 app.use(cors());
@@ -36,7 +32,6 @@ let persons = [
 
 app.get(
   "/",
-  morgan(":method :url :status :res[content-length] - :response-time ms :body"),
   (request, response) => {
     response.send("<h1>Hello World</h1>");
   }
@@ -44,7 +39,6 @@ app.get(
 
 app.get(
   "/info",
-  morgan(":method :url :status :res[content-length] - :response-time ms :body"),
   (request, response) => {
     response.send(
       `<p>Phonebook has info for ${
@@ -56,7 +50,6 @@ app.get(
 
 app.get(
   "/api/persons",
-  morgan(":method :url :status :res[content-length] - :response-time ms :body"),
   (request, response) => {
     response.json(persons);
   }
@@ -64,7 +57,6 @@ app.get(
 
 app.get(
   "/api/persons/:id",
-  morgan(":method :url :status :res[content-length] - :response-time ms :body"),
   (request, response) => {
     const id = Number(request.params.id);
     const person = persons.find((person) => person.id === id);
@@ -75,7 +67,6 @@ app.get(
 
 app.delete(
   "/api/persons/:id",
-  morgan(":method :url :status :res[content-length] - :response-time ms :body"),
   (request, response) => {
     const id = Number(request.params.id);
 
@@ -87,7 +78,6 @@ app.delete(
 
 app.put(
   "/api/persons/:id",
-  morgan(":method :url :status :res[content-length] - :response-time ms :body"),
   (request, response) => {
     const id = Number(request.params.id);
     const { name, number } = request.body;
@@ -117,7 +107,6 @@ const generateId = () => {
 
 app.post(
   "/api/persons",
-  morgan(":method :url :status :res[content-length] - :response-time ms :body"),
   (request, response) => {
     const body = request.body;
 
@@ -149,6 +138,6 @@ const unknownEndpoint = (request, response) => {
 
 app.use(unknownEndpoint);
 
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 app.listen(PORT);
 console.log(`Server running on port ${PORT} at http://localhost:${PORT}`);
