@@ -1,8 +1,8 @@
-POST http://localhost:3001/api/persons
+PUT http://localhost:3001/api/persons/64ef49f9c1bb9d37dee41bb3
 # POST https://easy-pear-perch-tam.cyclic.app/api/persons
 Content-Type: application/json
 
 {
-    "name": "Jane Doe",
+    "name": "Cameron Howe",
     "number": "077777"
 }
