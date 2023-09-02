@@ -10,7 +10,7 @@ app.use(express.json());
 app.use(cors());
 
 app.get("/", (request, response) => {
-  response.send("<h1>Hello World</h1>");
+  response.send("<h1>Phonebook</h1>");
 });
 
 app.get("/info", (request, response, next) => {
@@ -59,7 +59,11 @@ app.put("/api/persons/:id", (request, response, next) => {
     number,
   };
 
-  Person.findByIdAndUpdate(request.params.id, person, { new: true })
+  Person.findByIdAndUpdate(request.params.id, person, {
+    new: true,
+    runValidators: true,
+    context: "query",
+  })
     .then((updatedPerson) => {
       response.json(updatedPerson);
     })
@@ -96,7 +100,7 @@ app.post("/api/persons", (request, response, next) => {
     .then((savedPerson) => {
       response.json(savedPerson);
     })
-    .catch((error) => next(error));;
+    .catch((error) => next(error));
 });
 
 const unknownEndpoint = (request, response) => {
@@ -110,6 +114,8 @@ const errorHandler = (error, request, response, next) => {
 
   if (error.name === "CastError") {
     return response.status(400).send({ error: "malformatted id" });
+  } else if (error.name === "ValidationError") {
+    return response.status(400).send({ error: error.message });
   }
 
   next(error);

@@ -15,15 +15,31 @@ mongoose.set("strictQuery", false);
 const url = process.env.MONGODB_URI;
 console.log("connecting to", url);
 
-mongoose.connect(url).then(result => {
-  console.log('connected to MondoDB')
-}).catch((error) => {
-  console.log('error connecting to MongoDB: ', error)
-});
+mongoose
+  .connect(url)
+  .then((result) => {
+    console.log("connected to MondoDB");
+  })
+  .catch((error) => {
+    console.log("error connecting to MongoDB: ", error);
+  });
 
 const personSchema = new mongoose.Schema({
-  name: String,
-  number: Number || String,
+  name: {
+    type: String,
+    minLength: [3, "Name must be at least 3 characters long"],
+    required: [true, "Name required"],
+  },
+  number: {
+    type: String,
+    minLength: [8, "Phone number must be at least 8 digits long"],
+    required: [true, "Phone number required"],
+    validate: {
+      validator: (value) => /^\d{2,3}-\d+$/.test(value),
+      message: (props) =>
+        `${props.value} is not in the accepted format of ddd-ddddd+ or dd-dddddd+`,
+    },
+  },
 });
 
 personSchema.set("toJSON", {
@@ -34,7 +50,7 @@ personSchema.set("toJSON", {
   },
 });
 
-module.exports = mongoose.model('Person', personSchema);
+module.exports = mongoose.model("Person", personSchema);
 
 // if (name || number) {
 //   const person = new Person({
