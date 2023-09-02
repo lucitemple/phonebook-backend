@@ -1,6 +1,23 @@
-# Phonebook
+# Phonebook (Backend Project)
 
-A simple phonebook app. The code in this repo is the backend of the project, which can be run locally or deployed by adding the frontend build to the folder.
+The backend for a simple phonebook app. This project was completed for [Part 3 of FullStackOpen](https://fullstackopen.com/en/part3). 
+
+Goals:
+-  implement a simple REST API in Node.js using the Express library
+- store the data in a MongoDB database
+- connect the frontend (from Part 2) to the backend
+- implement linting
+- implement scripts (such as to deploy)
+- data validation
+- error handling
+- use of middleware
+- deploy the app online
+- handle CORS
+
+Key technologies used:
+- Node.js
+- Express
+- MongoDB & Mongoose
 
 ## Getting started with the Phonebook
 
@@ -20,18 +37,18 @@ A simple phonebook app. The code in this repo is the backend of the project, whi
 
     `npm start`
 
-3. Follow the instructions to clone the frontend repo and connect it to this backend. 
 
 ## Deploy the Phonebook
 
-1. In the frontend repo, create a production build
+1. Update the version number in package.json.
 
-    `npm run build`
+2. Copy the latest build of the frontend code into the `dist/` directory. 
 
-2. From the root of the frontend repo, copy the build files to this backend repo. Presuming you have both the frontend and backend repositories located at the same level:
+    Presuming both the frontend and backend local repos are located in the same directory on your local machine, you can run the deloy script from the root of this repo to achieve this:
 
-    `cp -r dist ../phonebook-backend`
+    `npm run deploy:full`
 
-3. Update the version number in package.json.
+    This command will create a build of the frontend, copy it to the `dist/` directory of this backend repo, commit it and push it to github. 
 
-4. Commit the change and push to github
+    When this is done on the `main` branch, it will automatically be deployed to cyclic at the address [https://easy-pear-perch-tam.cyclic.app](https://easy-pear-perch-tam.cyclic.app)
+
